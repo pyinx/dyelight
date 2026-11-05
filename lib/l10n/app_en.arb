@@ -1,0 +1,207 @@
+{
+  "@@locale": "en",
+  "appTitle": "Dyelight",
+  "tabCreate": "Create",
+  "tabHistory": "History",
+  "tabSettings": "Settings",
+  "emptyTitle": "Bring your photos to life",
+  "emptyHint": "Pick a photo and let AI fix the exposure and colors.",
+  "pickPhoto": "Choose Photo",
+  "takePhoto": "Take Photo",
+  "chooseSource": "Add a photo",
+  "fromGallery": "Photo Library",
+  "cancel": "Cancel",
+  "replacePhoto": "Change Photo",
+  "modeAuto": "Auto",
+  "modeCustom": "Custom",
+  "autoModeHint": "One tap: white balance, dynamic range and detail are restored automatically.",
+  "promptPlaceholder": "Describe the look, e.g. golden hour backlight",
+  "autoPrompt": "Act as a skilled photo editor. Restore and recolor this photograph: correct the white balance, recover dynamic range and shadow/highlight detail, apply natural balanced color and bring back fine texture. Keep the composition, subjects and faces unchanged and do not add or remove objects.",
+  "start": "Start",
+  "generating1": "AI is composing colors…",
+  "generating2": "Balancing light and shadow…",
+  "generating3": "Polishing the details…",
+  "cancelGeneration": "Cancel",
+  "emptyPromptError": "Enter a prompt or switch to Auto mode.",
+  "resultTitle": "Result",
+  "save": "Save",
+  "saved": "Saved to your photo library",
+  "saveFailed": "Could not save the photo",
+  "tweak": "Tweak",
+  "holdForOriginal": "Hold to see the original",
+  "original": "Original",
+  "historyEmpty": "No creations yet",
+  "delete": "Delete",
+  "deleteConfirm": "Delete this item?",
+  "sectionServer": "Model Service",
+  "baseUrl": "API Base URL",
+  "apiKey": "API Key",
+  "modelId": "Model ID",
+  "endpointStyle": "Interface",
+  "endpointImagesEdits": "/images/edits",
+  "endpointChat": "/chat/completions",
+  "sectionAdvanced": "Advanced",
+  "timeout": "Timeout (seconds)",
+  "customHeaders": "Custom headers (Key: Value per line)",
+  "temperature": "Temperature",
+  "language": "Language",
+  "langSystem": "System",
+  "langZh": "简体中文",
+  "langEn": "English",
+  "testConnection": "Test Connection",
+  "testing": "Testing…",
+  "testOk": "Connected. Server is reachable and the key was accepted.",
+  "testModelListed": "Model “{model}” is available.",
+  "@testModelListed": {
+    "placeholders": {
+      "model": {
+        "type": "String"
+      }
+    }
+  },
+  "testModelMissing": "Connected, but model “{model}” is not in the server's list.",
+  "@testModelMissing": {
+    "placeholders": {
+      "model": {
+        "type": "String"
+      }
+    }
+  },
+  "testNoModelList": "Connected. The server does not provide a model list.",
+  "testAuthFailed": "Server reachable, but the API key was rejected.",
+  "testUnreachable": "Cannot reach the server. Check the Base URL and that the device is on the same network.",
+  "testStatus": "HTTP {code}",
+  "@testStatus": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "errTimeoutTitle": "Request timed out",
+  "errTimeoutBody": "The model is taking a long time to respond. Retry, or check your network and the model service status.",
+  "errSafetyTitle": "Request rejected",
+  "errSafetyBody": "The image or prompt did not pass the model's safety review, or the request was invalid. Adjust and try again.",
+  "errAuthTitle": "Authentication failed",
+  "errAuthBody": "Check your API key in Settings.",
+  "errNetworkTitle": "Network error",
+  "errNetworkBody": "Could not reach the service. Check the Base URL and your network or LAN connection.",
+  "errBadTitle": "Unexpected response",
+  "errBadBody": "The service did not return a usable image.",
+  "errGenericTitle": "Something went wrong",
+  "errImageTitle": "Cannot read this image",
+  "retry": "Retry",
+  "ok": "OK",
+  "permTitle": "Permission needed",
+  "permCameraBody": "Allow camera access in Settings to take photos.",
+  "permMicBody": "Allow microphone and speech recognition access in Settings to use voice input.",
+  "permPhotosBody": "Allow photo library access in Settings to save results.",
+  "openSettings": "Open Settings",
+  "voiceUnavailable": "Voice input is not available on this device.",
+  "listening": "Listening…",
+  "interfaceAuto": "Auto-detected on first use",
+  "interfaceDetected": "Detected {path}",
+  "interfaceUndetected": "Could not detect a supported image API at this URL.",
+  "provider": "Provider",
+  "providerCustom": "Custom (OpenAI-compatible)",
+  "selectModel": "Select Model",
+  "searchModels": "Search or type a model ID",
+  "useModel": "Use “{model}”",
+  "fetchingModels": "Fetching models…",
+  "modelsFailed": "Could not load the model list. You can type a model ID above.",
+  "noModelsFound": "No models found.",
+  "@useModel": {
+    "placeholders": {
+      "model": {
+        "type": "String"
+      }
+    }
+  },
+  "@interfaceDetected": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "endpointImagesGenerations": "/images/generations",
+  "debugSection": "Debug",
+  "debugMode": "Debug mode",
+  "debugModeHint": "Records requests and responses (API key hidden, images shortened) so you can copy them for troubleshooting. Cleared when the app restarts.",
+  "debugLogView": "View debug log",
+  "debugTitle": "Debug Log",
+  "debugCopy": "Copy All",
+  "debugCopied": "Copied to clipboard",
+  "debugClear": "Clear",
+  "debugEmpty": "No entries yet. Run Test Connection or generate a photo.",
+  "modeRecolor": "Recolor",
+  "modeCollage": "Collage",
+  "collageEmptyTitle": "Combine photos into one image",
+  "collageEmptyHint": "Pick up to 9 photos, then choose a layout and a style.",
+  "collageAddPhotos": "Add Photos",
+  "collageLayout": "Layout",
+  "collageStyle": "Style",
+  "collageTitleHint": "Title (optional)",
+  "collageSubtitleHint": "Subtitle (optional)",
+  "collageNeedMore": "Add {n} more to fill this layout",
+  "collageExtraUnused": "Photos past the last cell are not used",
+  "collageCreate": "Create Collage",
+  "collageBackground": "Background",
+  "collageGap": "Spacing",
+  "collageRadius": "Corners",
+  "collageRatio": "Ratio",
+  "replace": "Replace",
+  "remove": "Remove",
+  "moveEarlier": "Move Earlier",
+  "historyCollage": "Collage",
+  "adjustFromResult": "Continue from this result",
+  "adjustFromOriginal": "Start over from the original",
+  "@collageNeedMore": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "collageSmart": "Smart",
+  "collageDragHint": "Long-press a photo and drag it onto another to swap places",
+  "aboutSection": "About",
+  "appVersion": "Version",
+  "homeTagline": "Give every photo its light",
+  "homeIntro": "Dyelight recolors and restores photos with the AI model you bring, and turns many photos into one shareable collage.",
+  "homeRecolorTitle": "Recolor",
+  "homeRecolorDesc": "One tap to colorize, repair and restyle, with {n} built-in looks: restore, filters, art, landscape, portrait and scenes.",
+  "homeRecolorCta": "Start recoloring",
+  "homeCollageTitle": "Collage",
+  "homeCollageDesc": "Smart layouts for up to 9 photos: side by side, stacked, 4 or 9 grid. Styles for Xiaohongshu, Moments, Editorial, Swiss or your own.",
+  "homeCollageCta": "Start a collage",
+  "homeFeaturesTitle": "Why Dyelight",
+  "featByokTitle": "Bring your own model",
+  "featByokDesc": "Use your own API key with OpenAI, Doubao, Gemini and more. The interface type is detected for you.",
+  "featPrivacyTitle": "Private by design",
+  "featPrivacyDesc": "Your key stays encrypted on this device. Photos go only to the service you set up.",
+  "featLocalTitle": "Collages stay on your phone",
+  "featLocalDesc": "Collages are composed locally: no AI calls and no cost.",
+  "featHistoryTitle": "Keep refining",
+  "featHistoryDesc": "Every result is saved. Reopen it to rename, adjust or start over from the original.",
+  "rename": "Rename",
+  "renameHint": "Name",
+  "historyAll": "All",
+  "rangeAll": "All time",
+  "rangeToday": "Today",
+  "range7": "Last 7 days",
+  "range30": "Last 30 days",
+  "rangeCustom": "Custom range…",
+  "rangeStart": "From",
+  "rangeEnd": "To",
+  "done": "Done",
+  "historyNoMatch": "No creations match these filters",
+  "resetFilters": "Clear filters",
+  "@homeRecolorDesc": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
+}
