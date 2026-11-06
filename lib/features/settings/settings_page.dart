@@ -118,6 +118,23 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     _save((s) => s.copyWith(model: m, clearEndpoint: true));
   }
 
+  Future<void> _pickVisionModel() async {
+    final l = AppLocalizations.of(context);
+    final s = ref.read(settingsProvider);
+    final m = await Navigator.of(context).push<String>(
+      CupertinoPageRoute(
+        builder: (_) => ModelPickerPage(
+          settings: s,
+          apiKey: _key.text.trim(),
+          selected: s.visionModel,
+          noneLabel: l.visionModelNone,
+        ),
+      ),
+    );
+    if (m == null || m == ref.read(settingsProvider).visionModel) return;
+    _save((s) => s.copyWith(visionModel: m));
+  }
+
   String _path(EndpointStyle e, AppLocalizations l) => switch (e) {
     EndpointStyle.imagesEdits => l.endpointImagesEdits,
     EndpointStyle.imagesGenerations => l.endpointImagesGenerations,
@@ -228,6 +245,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               children: [
                 CupertinoListSection.insetGrouped(
                   header: Text(l.sectionServer),
+                  footer: Text(l.visionModelHint),
                   children: [
                     CupertinoListTile(
                       title: Text(l.provider),
@@ -267,6 +285,16 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       additionalInfo: Text(s.model),
                       trailing: const CupertinoListTileChevron(),
                       onTap: _pickModel,
+                    ),
+                    CupertinoListTile(
+                      title: Text(l.visionModel),
+                      additionalInfo: Text(
+                        s.visionModel.isEmpty
+                            ? l.visionModelNone
+                            : s.visionModel,
+                      ),
+                      trailing: const CupertinoListTileChevron(),
+                      onTap: _pickVisionModel,
                     ),
                     CupertinoListTile(
                       title: Text(l.endpointStyle),

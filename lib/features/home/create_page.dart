@@ -172,7 +172,14 @@ class _RecolorViewState extends ConsumerState<RecolorView> {
       return;
     }
     HapticFeedback.mediumImpact();
-    ref.read(editProvider.notifier).generate(prompt);
+    ref
+        .read(editProvider.notifier)
+        .generate(
+          prompt,
+          analysis: s.auto
+              ? (ask: l.smartAnalysisPrompt, keep: l.smartKeepPrompt)
+              : null,
+        );
   }
 
   void _setPrompt(String prompt) {
@@ -212,7 +219,7 @@ class _RecolorViewState extends ConsumerState<RecolorView> {
     });
 
     final isZh = Localizations.localeOf(context).languageCode == 'zh';
-    final generating = s.status == EditStatus.generating;
+    final generating = s.working;
 
     return CupertinoPageScaffold(
       child: Column(
@@ -243,6 +250,7 @@ class _RecolorViewState extends ConsumerState<RecolorView> {
                           _PhotoCard(
                             bytes: s.source!.bytes,
                             generating: generating,
+                            analyzing: s.status == EditStatus.analyzing,
                             onCancel: ctrl.cancel,
                           ),
                           CupertinoButton(
@@ -399,11 +407,12 @@ class _PhotoCard extends StatelessWidget {
   const _PhotoCard({
     required this.bytes,
     required this.generating,
+    required this.analyzing,
     required this.onCancel,
   });
 
   final Uint8List bytes;
-  final bool generating;
+  final bool generating, analyzing;
   final VoidCallback onCancel;
 
   @override
@@ -426,7 +435,12 @@ class _PhotoCard extends StatelessWidget {
             ),
           ),
           if (generating)
-            Positioned.fill(child: GeneratingOverlay(onCancel: onCancel)),
+            Positioned.fill(
+              child: GeneratingOverlay(
+                analyzing: analyzing,
+                onCancel: onCancel,
+              ),
+            ),
         ],
       ),
     );

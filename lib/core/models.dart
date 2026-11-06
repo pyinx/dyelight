@@ -9,6 +9,7 @@ class AppSettings {
     this.providerId = 'openai',
     this.baseUrl = 'https://api.openai.com/v1',
     this.model = 'gpt-image-1',
+    this.visionModel = '',
     this.timeoutSeconds = 60,
     this.headers = const {},
     this.temperature = 0.7,
@@ -21,6 +22,9 @@ class AppSettings {
   final String providerId;
   final String baseUrl;
   final String model;
+
+  /// Chat model that reads the photo for Smart mode; empty = image model only.
+  final String visionModel;
   final int timeoutSeconds;
   final Map<String, String> headers;
   final double temperature;
@@ -38,6 +42,7 @@ class AppSettings {
     String? providerId,
     String? baseUrl,
     String? model,
+    String? visionModel,
     int? timeoutSeconds,
     Map<String, String>? headers,
     double? temperature,
@@ -50,6 +55,7 @@ class AppSettings {
     providerId: providerId ?? this.providerId,
     baseUrl: baseUrl ?? this.baseUrl,
     model: model ?? this.model,
+    visionModel: visionModel ?? this.visionModel,
     timeoutSeconds: timeoutSeconds ?? this.timeoutSeconds,
     headers: headers ?? this.headers,
     temperature: temperature ?? this.temperature,
@@ -62,6 +68,7 @@ class AppSettings {
     'providerId': providerId,
     'baseUrl': baseUrl,
     'model': model,
+    'visionModel': visionModel,
     'timeoutSeconds': timeoutSeconds,
     'headers': headers,
     'temperature': temperature,
@@ -78,6 +85,7 @@ class AppSettings {
           (j['baseUrl'] == null ? d.providerId : kCustomProviderId),
       baseUrl: j['baseUrl'] as String? ?? d.baseUrl,
       model: j['model'] as String? ?? d.model,
+      visionModel: j['visionModel'] as String? ?? d.visionModel,
       timeoutSeconds: j['timeoutSeconds'] as int? ?? d.timeoutSeconds,
       headers: ((j['headers'] as Map?) ?? const {}).map(
         (k, v) => MapEntry(k.toString(), v.toString()),

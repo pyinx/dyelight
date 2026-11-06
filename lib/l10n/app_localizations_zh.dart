@@ -45,20 +45,27 @@ class AppLocalizationsZh extends AppLocalizations {
   String get replacePhoto => '更换照片';
 
   @override
-  String get modeAuto => '全自动';
+  String get modeAuto => '智能';
 
   @override
   String get modeCustom => '自定义';
 
   @override
-  String get autoModeHint => '一键完成：自动校正白平衡、提升动态范围、恢复细节质感。';
+  String get autoModeHint => '先读懂照片内容，再分主次处理：突出主体，增强关键区域，弱化杂乱背景。';
 
   @override
   String get promptPlaceholder => '描述想要的色调，如“日落逆光黄金时刻”';
 
   @override
   String get autoPrompt =>
-      '请作为专业修图师，对这张照片进行修复与上色：校正白平衡，恢复动态范围与暗部/高光细节，使用自然均衡的色彩，并找回细腻的质感。保持构图、主体和人脸不变，不要增删物体。';
+      '请作为资深修图师处理这张照片。先读懂画面：判断主体（人物、动物、建筑、风景或物品）及其位置，场景、光线与时间，是黑白/褪色老照片还是彩色照片，以及最影响观感的问题。然后分主次处理，不要全图平均用力：1. 主体是视觉重点：还原真实自然的色彩与肤色，提升清晰度、质感与立体感，让主体从画面中凸显；2. 衬托主体的区域（天空、水面、植被、关键环境）适度增强色彩与层次，色调与主体协调；3. 杂乱或抢眼的次要背景与边缘区域降低饱和度与对比，必要时轻微柔化虚化，把视线引回主体；4. 黑白或褪色照片按场景与年代合理上色，彩色照片校正白平衡与偏色；5. 恢复暗部与高光细节，去除噪点、划痕与污渍。保持构图、主体身份和人脸五官不变，不要增删物体。';
+
+  @override
+  String get smartAnalysisPrompt =>
+      '你是资深修图师，要为一个 AI 图片编辑模型写修图指令。先仔细看这张照片：主体是什么、在画面哪个位置；场景、光线与时间；是黑白/褪色老照片还是彩色照片；最影响观感的问题（偏色、曝光、噪点、划痕、模糊、杂乱背景等）。然后写一段针对这张照片的修图指令，分主次说明：主体如何重点处理（色彩、肤色、清晰度、质感、立体感）；哪些区域需要增强，目标效果是什么；哪些区域需要弱化、降饱和或轻微虚化来突出主体；如果是黑白或褪色照片，各部分应上什么颜色（结合场景与年代给出具体合理的颜色）。必须点名这张照片里的具体对象和位置，不要泛泛而谈。只输出指令本身，不超过 200 字，不要解释、标题或 Markdown。';
+
+  @override
+  String get smartKeepPrompt => '保持构图、主体身份和人脸五官不变，不要增删物体。';
 
   @override
   String get start => '开始生成';
@@ -73,10 +80,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get generating3 => '正在打磨细节…';
 
   @override
+  String get analyzingPhoto => '正在读懂照片…';
+
+  @override
   String get cancelGeneration => '取消';
 
   @override
-  String get emptyPromptError => '请输入提示词，或切换到全自动模式。';
+  String get emptyPromptError => '请输入提示词，或切换到智能模式。';
 
   @override
   String get resultTitle => '效果';
@@ -119,6 +129,16 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get modelId => '模型 ID';
+
+  @override
+  String get visionModel => '图片理解模型';
+
+  @override
+  String get visionModelNone => '不使用';
+
+  @override
+  String get visionModelHint =>
+      '智能模式会先用图片理解模型（能看图的对话模型，如 gpt-4o-mini、gemini-2.5-flash、qwen-vl-max）分析照片，再决定处理重点；不设置时由图片模型自行分析，效果取决于模型能力。';
 
   @override
   String get endpointStyle => '接口类型';

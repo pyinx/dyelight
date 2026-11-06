@@ -173,7 +173,7 @@ abstract class AppLocalizations {
   /// No description provided for @modeAuto.
   ///
   /// In en, this message translates to:
-  /// **'Auto'**
+  /// **'Smart'**
   String get modeAuto;
 
   /// No description provided for @modeCustom.
@@ -185,7 +185,7 @@ abstract class AppLocalizations {
   /// No description provided for @autoModeHint.
   ///
   /// In en, this message translates to:
-  /// **'One tap: white balance, dynamic range and detail are restored automatically.'**
+  /// **'Reads the photo first, then edits with priorities: the subject stands out, key areas are enhanced, clutter is toned down.'**
   String get autoModeHint;
 
   /// No description provided for @promptPlaceholder.
@@ -197,8 +197,20 @@ abstract class AppLocalizations {
   /// No description provided for @autoPrompt.
   ///
   /// In en, this message translates to:
-  /// **'Act as a skilled photo editor. Restore and recolor this photograph: correct the white balance, recover dynamic range and shadow/highlight detail, apply natural balanced color and bring back fine texture. Keep the composition, subjects and faces unchanged and do not add or remove objects.'**
+  /// **'Act as a senior photo editor. First read the image: identify the main subject (person, animal, building, landscape or object) and where it is, the scene, light and time of day, whether it is a black-and-white/faded old photo or a color photo, and what hurts it most. Then edit with clear priorities instead of treating every area equally: 1. The subject is the focal point: give it true, natural color and skin tones, more clarity, texture and depth so it stands out; 2. Areas that support the subject (sky, water, foliage, key surroundings) get moderately richer color and depth in harmony with the subject; 3. Cluttered or distracting background and edges get less saturation and contrast, softened or slightly blurred where needed, to lead the eye back to the subject; 4. Colorize black-and-white or faded photos plausibly for the scene and era; correct white balance and color casts in color photos; 5. Recover shadow and highlight detail and remove noise, scratches and stains. Keep the composition, the subject\'s identity and facial features unchanged, and do not add or remove objects.'**
   String get autoPrompt;
+
+  /// No description provided for @smartAnalysisPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'You are a senior photo editor writing instructions for an AI image-editing model. Study this photo first: what the main subject is and where it sits in the frame; the scene, light and time of day; whether it is a black-and-white/faded old photo or a color photo; and what hurts it most (color cast, exposure, noise, scratches, blur, cluttered background, etc.). Then write one editing instruction for this specific photo, with clear priorities: how to treat the subject as the focal point (color, skin tones, clarity, texture, depth); which areas to enhance and to what effect; which areas to tone down, desaturate or softly blur so the subject stands out; and, for black-and-white or faded photos, which colors each part should get (specific and plausible for the scene and era). Name the actual objects and places in this photo instead of speaking in generalities. Output only the instruction, at most 120 words, with no explanation, headings or Markdown.'**
+  String get smartAnalysisPrompt;
+
+  /// No description provided for @smartKeepPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the composition, the subject\'s identity and facial features unchanged, and do not add or remove objects.'**
+  String get smartKeepPrompt;
 
   /// No description provided for @start.
   ///
@@ -224,6 +236,12 @@ abstract class AppLocalizations {
   /// **'Polishing the details…'**
   String get generating3;
 
+  /// No description provided for @analyzingPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading your photo…'**
+  String get analyzingPhoto;
+
   /// No description provided for @cancelGeneration.
   ///
   /// In en, this message translates to:
@@ -233,7 +251,7 @@ abstract class AppLocalizations {
   /// No description provided for @emptyPromptError.
   ///
   /// In en, this message translates to:
-  /// **'Enter a prompt or switch to Auto mode.'**
+  /// **'Enter a prompt or switch to Smart mode.'**
   String get emptyPromptError;
 
   /// No description provided for @resultTitle.
@@ -319,6 +337,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Model ID'**
   String get modelId;
+
+  /// No description provided for @visionModel.
+  ///
+  /// In en, this message translates to:
+  /// **'Vision model'**
+  String get visionModel;
+
+  /// No description provided for @visionModelNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get visionModelNone;
+
+  /// No description provided for @visionModelHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart mode first asks a vision model (a chat model that can see images, e.g. gpt-4o-mini, gemini-2.5-flash, qwen-vl-max) to read the photo and decide what to focus on. Without one, the image model analyzes on its own and results depend on its abilities.'**
+  String get visionModelHint;
 
   /// No description provided for @endpointStyle.
   ///

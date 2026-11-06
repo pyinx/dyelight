@@ -6,14 +6,23 @@ import '../../l10n/app_localizations.dart';
 import '../../state/providers.dart';
 
 /// Fetches `/models` on open; the search box doubles as manual entry.
+/// Pops the chosen id, or '' for the [noneLabel] row.
 class ModelPickerPage extends ConsumerStatefulWidget {
   const ModelPickerPage({
     super.key,
     required this.settings,
     required this.apiKey,
+    this.selected,
+    this.noneLabel,
   });
   final AppSettings settings;
   final String apiKey;
+
+  /// Checkmarked id; defaults to the image model.
+  final String? selected;
+
+  /// When set, a first row that clears the choice.
+  final String? noneLabel;
 
   @override
   ConsumerState<ModelPickerPage> createState() => _ModelPickerPageState();
@@ -62,6 +71,11 @@ class _ModelPickerPageState extends ConsumerState<ModelPickerPage> {
         : all.where((m) => m.toLowerCase().contains(q.toLowerCase())).toList();
     final canUseTyped = q.isNotEmpty && !all.contains(q);
     final secondary = CupertinoColors.secondaryLabel.resolveFrom(context);
+    final selected = widget.selected ?? widget.settings.model;
+    const check = Icon(
+      CupertinoIcons.checkmark_alt,
+      color: CupertinoColors.activeBlue,
+    );
 
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(middle: Text(l.selectModel)),
@@ -79,6 +93,12 @@ class _ModelPickerPageState extends ConsumerState<ModelPickerPage> {
             Expanded(
               child: ListView(
                 children: [
+                  if (widget.noneLabel != null && q.isEmpty)
+                    CupertinoListTile(
+                      title: Text(widget.noneLabel!),
+                      trailing: selected.isEmpty ? check : null,
+                      onTap: () => Navigator.pop(context, ''),
+                    ),
                   if (canUseTyped)
                     CupertinoListTile(
                       title: Text(l.useModel(q)),
@@ -133,12 +153,7 @@ class _ModelPickerPageState extends ConsumerState<ModelPickerPage> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      trailing: m == widget.settings.model
-                          ? const Icon(
-                              CupertinoIcons.checkmark_alt,
-                              color: CupertinoColors.activeBlue,
-                            )
-                          : null,
+                      trailing: m == selected ? check : null,
                       onTap: () => Navigator.pop(context, m),
                     ),
                 ],

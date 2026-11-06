@@ -7,7 +7,15 @@ import '../../l10n/app_localizations.dart';
 
 /// Pulsing, blurred overlay with friendly rotating copy and a Cancel button.
 class GeneratingOverlay extends StatefulWidget {
-  const GeneratingOverlay({super.key, required this.onCancel});
+  const GeneratingOverlay({
+    super.key,
+    this.analyzing = false,
+    required this.onCancel,
+  });
+
+  /// Smart mode is still reading the photo; shows that instead of the
+  /// rotating generation copy.
+  final bool analyzing;
   final VoidCallback onCancel;
 
   @override
@@ -41,7 +49,9 @@ class _GeneratingOverlayState extends State<GeneratingOverlay>
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final lines = [l.generating1, l.generating2, l.generating3];
+    final lines = widget.analyzing
+        ? [l.analyzingPhoto]
+        : [l.generating1, l.generating2, l.generating3];
     return BackdropFilter(
       filter: ui.ImageFilter.blur(sigmaX: 14, sigmaY: 14),
       child: AnimatedBuilder(

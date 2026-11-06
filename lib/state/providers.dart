@@ -12,6 +12,7 @@ import '../core/network/api_client.dart';
 import '../core/network/api_error.dart';
 import '../core/network/discovery.dart';
 import '../core/network/image_edit_provider.dart';
+import '../core/network/photo_analyzer.dart';
 import '../core/network/provider_factory.dart';
 import '../core/permissions/permission_service.dart';
 import '../core/storage/history_repo.dart';
@@ -82,6 +83,19 @@ final endpointDetectorProvider = Provider<EndpointDetector>(
       (s, k) => detectEndpointStyle(createDio(s, k), s.model),
 );
 
+/// Seam for tests: asks the vision model about a photo (Smart mode).
+typedef PhotoAnalyzer =
+    Future<String> Function(
+      AppSettings,
+      String apiKey,
+      EditRequest,
+      CancelToken,
+    );
+final photoAnalyzerProvider = Provider<PhotoAnalyzer>(
+  (_) =>
+      (s, k, req, t) => describePhoto(createDio(s, k), s.visionModel, req, t),
+);
+
 typedef ModelLister = Future<List<String>> Function(AppSettings, String apiKey);
 final modelListerProvider = Provider<ModelLister>(
   (_) =>
@@ -128,7 +142,7 @@ final historyProvider = NotifierProvider<HistoryNotifier, List<HistoryEntry>>(
   HistoryNotifier.new,
 );
 
-enum EditStatus { idle, preprocessing, generating, done, failed }
+enum EditStatus { idle, preprocessing, analyzing, generating, done, failed }
 
 class EditState {
   const EditState({
@@ -149,8 +163,11 @@ class EditState {
   final ApiError? error;
   final bool imageError;
 
-  bool get busy =>
-      status == EditStatus.preprocessing || status == EditStatus.generating;
+  bool get busy => status == EditStatus.preprocessing || working;
+
+  /// Smart analysis or image generation is in flight.
+  bool get working =>
+      status == EditStatus.analyzing || status == EditStatus.generating;
 
   EditState copyWith({
     EditStatus? status,
@@ -203,19 +220,49 @@ class EditController extends Notifier<EditState> {
     state = state.copyWith(auto: false, prompt: prompt);
   }
 
-  /// [effectivePrompt] is the localized auto prompt or the user's text.
-  Future<void> generate(String effectivePrompt) async {
+  /// [effectivePrompt] is the localized Smart fallback prompt or the user's
+  /// text. With [analysis] and a vision model configured, that model first
+  /// reads the photo and answers [analysis].ask; its answer plus
+  /// [analysis].keep replaces [effectivePrompt]. If the analysis fails,
+  /// [effectivePrompt] is used instead.
+  Future<void> generate(
+    String effectivePrompt, {
+    ({String ask, String keep})? analysis,
+  }) async {
     final src = state.source;
     if (src == null || state.busy) return;
+    var settings = ref.read(settingsProvider);
+    final analyze = analysis != null && settings.visionModel.isNotEmpty;
     state = state.copyWith(
-      status: EditStatus.generating,
+      status: analyze ? EditStatus.analyzing : EditStatus.generating,
       clearError: true,
       clearResult: true,
     );
     final token = _token = CancelToken();
     try {
-      var settings = ref.read(settingsProvider);
       final key = await ref.read(secureStoreProvider).readApiKey();
+      var prompt = effectivePrompt;
+      if (analyze) {
+        try {
+          final brief = await ref.read(photoAnalyzerProvider)(
+            settings,
+            key,
+            EditRequest(
+              imageBytes: src.bytes,
+              mimeType: src.mimeType,
+              prompt: analysis.ask,
+            ),
+            token,
+          );
+          prompt = '$brief\n${analysis.keep}';
+          debugLog.add('analysis: model=${settings.visionModel}\n$brief');
+        } on ApiError catch (e) {
+          if (e.type == ApiErrorType.cancelled) rethrow;
+          debugLog.add('analysis failed, using built-in smart prompt: $e');
+        }
+        if (token.isCancelled) throw const ApiError(ApiErrorType.cancelled);
+        state = state.copyWith(status: EditStatus.generating);
+      }
       if (settings.endpointStyle == null) {
         final style = await ref.read(endpointDetectorProvider)(settings, key);
         if (token.isCancelled) throw const ApiError(ApiErrorType.cancelled);
@@ -239,7 +286,7 @@ class EditController extends Notifier<EditState> {
         EditRequest(
           imageBytes: src.bytes,
           mimeType: src.mimeType,
-          prompt: effectivePrompt,
+          prompt: prompt,
         ),
         token,
       );
